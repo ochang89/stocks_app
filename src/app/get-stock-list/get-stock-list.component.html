@@ -1,0 +1,17 @@
+<label for="">Stock Ticker</label>
+<input type="text" [(ngModel)]="ticker">
+
+<label for="">Date</label>
+<input type="text" [(ngModel)]="date" value="YYYY-MM-DD">
+
+<button (click)="onSubmit()" type="button" class="btn btn-dark">Get Stocks List</button>
+<br><br>
+<hr>
+<!-- <form action="http://www.youtube.com">
+    <input type="submit" value="Submit" />
+</form> -->
+
+<h3>Stock: {{ ticker }}</h3>
+<p>Date: {{ date }}</p>
+<p>Open price: ${{ openPrice }}</p>
+<p>Close price: ${{ closePrice }}</p>
