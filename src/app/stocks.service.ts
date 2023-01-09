@@ -5,16 +5,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StocksService {
-  ticker: string = '';
-  date: string = '';
-  tiingo_API_TOKEN: string = 'be8c9784e7cd1f96be661df808c6be2b6eed78d6';
   url?: string;
 
   constructor(private http: HttpClient) { }
 
-  getStocksList(ticker: string, date: string) {
-    this.ticker = ticker;
-    this.date = date;
-    return this.http.get(`https://api.tiingo.com/tiingo/daily/${this.ticker}/prices?startDate=${this.date}&token=${this.tiingo_API_TOKEN}`);
+  getStocksList(ticker: string, date: string, API_TOKEN: string) {
+    return this.http.get(`https://api.tiingo.com/tiingo/daily/${ticker}/prices?startDate=${date}&token=${API_TOKEN}`);
   }
 }
