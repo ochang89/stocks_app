@@ -33,8 +33,8 @@ export class GetStockListComponent {
     this.stocksService.getStocksList(this.ticker, this.date).subscribe(data => {
       console.log(data);
       this.jsonData = data;
-      this.closePrice = this.jsonData[0].close;
-      this.openPrice = this.jsonData[0].open;
+      this.closePrice = `$${this.jsonData[0].close}`;
+      this.openPrice = `$${this.jsonData[0].open}`;
       this.unformattedDate = this.jsonData[0].date;
       console.log(`unformatted date: ` + this.unformattedDate);
       this.showDate = `${this.formatDate(this.unformattedDate)}`;
@@ -50,8 +50,7 @@ export class GetStockListComponent {
     let dayOf = day.getDay();
     console.log(dayOf);
     console.log(this.checkIfWeekend());
-    this.displayMsg = this.checkIfWeekend();
-    return `Successfully received data`;
+    return this.checkIfWeekend();
   }
 
   formatDate(date: string){
@@ -70,9 +69,9 @@ export class GetStockListComponent {
     const inputDate = new Date(this.date);
     const day = inputDate.getDay();
 
-    if(day === 0 || day === 6){
-      return `Stock market is not open on the weekends.`;
+    if(day === 6 || day === 0){
+      return `Stock market is not open on the weekends. The next open is ${this.showDate}`;
     }
-    return `Checking day of the week..`;
+    return `Successfully retrieved data`;
   }
 }
