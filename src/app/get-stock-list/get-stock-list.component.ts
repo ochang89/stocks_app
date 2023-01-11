@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { StocksService } from '../stocks.service';
 
-export interface stockData {
+export type stockData = Array<{
   date: string;
   open: string;
   close: string;
   high: string;
   low: string;
   volume: string;
-};
+}>;
 
 @Component({
   selector: 'app-get-stock-list',
@@ -26,14 +26,15 @@ export class GetStockListComponent {
   showTicker!: string;
   jsonData: any;
   displayMsg: string | undefined = '';
-  openPrice: any;
   closePrice: any;
   unformattedDate: string = '';
   showDate: string = '';
   volume: string = '';
   averageHighLow!: number;
-  stocksMap = new Map<string, Object>;
-
+  stocksMap = new Map<string, stockData>;
+  mapVals = this.stocksMap.get(this.ticker);
+  openPrices!: string[];
+  openPrice!: string;
 
   constructor(private router: Router, private stocksService: StocksService) {
 
@@ -45,11 +46,12 @@ export class GetStockListComponent {
     this.stocksService.getStocksList(this.ticker, this.date, this.tiingo_API_TOKEN).subscribe(data => {
       console.log(data);
       this.jsonData = data;
+      const openPrices = this.jsonData.map((obj: { open: any; }) => obj.open);
       //jsonData contains daily info for the whole week
-      this.stocksMap.set(this.ticker.toUpperCase(), data);
+      this.stocksMap.set(this.ticker.toUpperCase(), this.jsonData);
       console.log(this.stocksMap);
       this.closePrice = `$${this.jsonData[0].close}`;
-      this.openPrice = `$${this.jsonData[0].open}`;
+      // this.openPrice = `$${this.jsonData[0].open}`;
       this.volume = `${this.jsonData[0].volume}`;
       this.averageHighLow = parseFloat(((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low))/2).toFixed(2));
       this.unformattedDate = this.jsonData[0].date;
@@ -78,12 +80,10 @@ export class GetStockListComponent {
   }
 
   checkIfWeekend = (): string => {
-    const inputDate = new Date(this.date);
-    const day = inputDate.getDay();
+    const inputDay = new Date(this.date).getDay();
 
-    if(day === 6 || day === 0){
-      return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
-    }
+    if(inputDay === 6 || inputDay === 0) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
+    
     return `Successfully retrieved data`;
   }
 }
