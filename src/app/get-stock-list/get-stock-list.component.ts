@@ -25,14 +25,15 @@ export class GetStockListComponent {
   date: string = '';
   showTicker!: string;
   jsonData: any;
+  stocksMap = new Map<string, stockData>;
+  mapVals!: stockData;
   displayMsg: string | undefined = '';
   closePrice: any;
   unformattedDate: string = '';
   showDate: string = '';
   volume: string = '';
   averageHighLow!: number;
-  stocksMap = new Map<string, stockData>;
-  mapVals = this.stocksMap.get(this.ticker);
+  
   openPrices!: string[];
   openPrice!: string;
 
@@ -49,9 +50,9 @@ export class GetStockListComponent {
       const openPrices = this.jsonData.map((obj: { open: any; }) => obj.open);
       //jsonData contains daily info for the whole week
       this.stocksMap.set(this.ticker.toUpperCase(), this.jsonData);
+      this.mapVals = this.stocksMap.get(this.ticker.toUpperCase())!;
       console.log(this.stocksMap);
       this.closePrice = `$${this.jsonData[0].close}`;
-      // this.openPrice = `$${this.jsonData[0].open}`;
       this.volume = `${this.jsonData[0].volume}`;
       this.averageHighLow = parseFloat(((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low))/2).toFixed(2));
       this.unformattedDate = this.jsonData[0].date;
@@ -68,7 +69,6 @@ export class GetStockListComponent {
     console.log(`day: ` + day);
     let dayOf = day.getDay();
     console.log(dayOf);
-    console.log(this.checkIfWeekend());
     return this.checkIfWeekend();
   }
 
@@ -80,9 +80,17 @@ export class GetStockListComponent {
   }
 
   checkIfWeekend = (): string => {
-    const inputDay = new Date(this.date).getDay();
+    const inputDay = new Date(this.showDate).getDay();
+    const stockInfo: stockData = this.mapVals;
+    
+    const inputDate = stockInfo[0].date;
+    console.log(`inputDate: ${inputDate}`);
+    // map creates new array and assigns each day.date to it
+    // forEach doesn't return ANYTHING (void)
+    const stockWeek = stockInfo.filter(day => day.date);
+    console.log(stockWeek);
 
-    if(inputDay === 6 || inputDay === 0) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
+    if(inputDay === 6 || inputDay === 0 || !inputDate.includes(this.showDate)) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
     
     return `Successfully retrieved data`;
   }
