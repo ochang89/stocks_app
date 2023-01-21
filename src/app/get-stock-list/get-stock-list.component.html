@@ -18,3 +18,8 @@
 <p>Close price: {{ closePrice }}</p>
 <p>Volume: {{ volume }}</p>
 <p>High and Low of Day Average: {{ averageHighLow }}</p>
+
+<div *ngIf="chart">
+    <canvas id="canvas"> {{ chart }}
+    </canvas>
+  </div>

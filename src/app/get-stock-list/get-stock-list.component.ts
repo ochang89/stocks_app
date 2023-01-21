@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { StocksService } from '../stocks.service';
+import { Chart, ChartConfiguration, ChartOptions, ChartType } from "chart.js";
+
 
 export type stockData = Array<{
   date: string;
@@ -33,9 +35,10 @@ export class GetStockListComponent {
   showDate: string = '';
   volume: string = '';
   averageHighLow!: number;
-  
+  stockDates: string[] = [];
   openPrices!: string[];
   openPrice!: string;
+  chart = [];
 
   constructor(private router: Router, private stocksService: StocksService) {
 
@@ -54,13 +57,46 @@ export class GetStockListComponent {
       console.log(this.stocksMap);
       this.closePrice = `$${this.jsonData[0].close}`;
       this.volume = `${this.jsonData[0].volume}`;
-      this.averageHighLow = parseFloat(((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low))/2).toFixed(2));
+      this.averageHighLow = parseFloat(((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low)) / 2).toFixed(2));
       this.unformattedDate = this.jsonData[0].date;
       console.log(`unformatted date: ` + this.unformattedDate);
       this.showDate = `${this.formatDate(this.unformattedDate)}`;
       this.displayMsg = this.displayMessage();
+      this.getStockDates();
+      this.chart = new Chart('canvas', {
+        type: 'line',
+        data: {
+          labels: weatherDates,
+          datasets: [
+            { 
+              data: temp_max,
+              borderColor: "#3cba9f",
+              fill: false
+            },
+            { 
+              data: temp_min,
+              borderColor: "#ffcc00",
+              fill: false
+            },
+          ]
+        },
+        options: {
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              display: true
+            }],
+          }
+        }
+      });
     });
     this.showTicker = this.ticker.toUpperCase();
+    
   }
 
   displayMessage = () => {
@@ -82,16 +118,30 @@ export class GetStockListComponent {
   checkIfWeekend = (): string => {
     const inputDay = new Date(this.showDate).getDay();
     const stockInfo: stockData = this.mapVals;
-    
+
     const inputDate = stockInfo[0].date;
     console.log(`inputDate: ${inputDate}`);
     // map creates new array and assigns each day.date to it
     // forEach doesn't return ANYTHING (void)
     const stockWeek = stockInfo.filter(day => day.date);
-    console.log(stockWeek);
+    console.log(`Stock week` + stockWeek);
 
-    if(inputDay === 6 || inputDay === 0 || !inputDate.includes(this.showDate)) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
-    
+    if (inputDay === 6 || inputDay === 0 || !inputDate.includes(this.showDate)) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
+
     return `Successfully retrieved data`;
   }
+
+  getStockDates = () => {
+    this.stocksMap.forEach((value: stockData) => {
+      value.filter(value => this.stockDates.push(this.formatDate(value.date.slice(5, -1))));
+    });
+  }
+
+  // addChartData(chart, label, data) {
+  //   chart.data.labels.push(label);
+  //   chart.data.datasets.forEach((dataset) => {
+  //       dataset.data.push(data);
+  //   });
+  //   chart.update();
+// }
 }
