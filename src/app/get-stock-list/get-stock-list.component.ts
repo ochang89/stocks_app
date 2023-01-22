@@ -34,14 +34,15 @@ export class GetStockListComponent {
   unformattedDate: string = '';
   showDate: string = '';
   volume: string = '';
-  averageHighLow!: number;
+  averageHighLow: any;
   stockDates: string[] = [];
   openPrices!: string[];
-  openPrice!: string;
-  chart = [];
+  openPrice: string = '';
+  chart!: Chart;
+  volumeArr: string[] = [];
+  keys: string[] = [];
 
   constructor(private router: Router, private stocksService: StocksService) {
-
   }
 
   onSubmit() {
@@ -57,7 +58,7 @@ export class GetStockListComponent {
       console.log(this.stocksMap);
       this.closePrice = `$${this.jsonData[0].close}`;
       this.volume = `${this.jsonData[0].volume}`;
-      this.averageHighLow = parseFloat(((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low)) / 2).toFixed(2));
+      this.averageHighLow = (((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low)) / 2).toFixed(2)).toString();
       this.unformattedDate = this.jsonData[0].date;
       console.log(`unformatted date: ` + this.unformattedDate);
       this.showDate = `${this.formatDate(this.unformattedDate)}`;
@@ -66,31 +67,32 @@ export class GetStockListComponent {
       this.chart = new Chart('canvas', {
         type: 'line',
         data: {
-          labels: weatherDates,
+          labels: this.stockDates,
           datasets: [
             { 
-              data: temp_max,
+              data: this.volumeArr,
               borderColor: "#3cba9f",
-              fill: false
+              backgroundColor: "#3cba9f",
+              fill: true
             },
             { 
-              data: temp_min,
+              data: this.averageHighLow,
               borderColor: "#ffcc00",
               fill: false
             },
           ]
         },
         options: {
-          legend: {
-            display: false
-          },
           scales: {
-            xAxes: [{
+            x: {
               display: true
-            }],
-            yAxes: [{
-              display: true
-            }],
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Volume'
+              }
+            }
           }
         }
       });
@@ -133,7 +135,10 @@ export class GetStockListComponent {
 
   getStockDates = () => {
     this.stocksMap.forEach((value: stockData) => {
-      value.filter(value => this.stockDates.push(this.formatDate(value.date.slice(5, -1))));
+      value.filter(dates => this.stockDates.push(this.formatDate(dates.date.slice(5, -1))));
+      value.filter(vol => this.volumeArr.push(vol.volume));
+      value.filter(key => this.keys = Object.getOwnPropertyNames(key));
+      console.log(this.keys);
     });
   }
 
