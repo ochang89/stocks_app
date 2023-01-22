@@ -1,0 +1,7 @@
+- How do you integrate boostrap 5 to angular?
+    - ng bootstrap library installed
+
+- Features to work on:
+    - Different tabs to display different datasets like volume, average price, etc..
+    - nav bar
+    

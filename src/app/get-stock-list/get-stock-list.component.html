@@ -7,17 +7,16 @@
 <button (click)="onSubmit()" type="button" class="btn btn-dark">Get Stocks List</button>
 <br><br>
 <hr>
-<!-- <form action="http://www.youtube.com">
-    <input type="submit" value="Submit" />
-</form> -->
 <p>{{ displayMsg }}</p>
 
-<h3>Stock: {{ showTicker }}</h3>
-<p>Date: {{ showDate }}</p>
-<p>Open price: {{ openPrice }}</p>
-<p>Close price: {{ closePrice }}</p>
-<p>Volume: {{ volume }}</p>
-<p>High and Low of Day Average: {{ averageHighLow }}</p>
+<div>
+    <h3>Stock: {{ showTicker }}</h3>
+    <p>Date: {{ showDate }}</p>
+    <p>Open price: {{ openPrice }}</p>
+    <p>Close price: {{ closePrice }}</p>
+    <p>Volume: {{ volume }}</p>
+    <p>High and Low of Day Average: {{ averageHighLow }}</p>
+</div>
 
 <div style="width: 50rem">
     <canvas id="canvas"> {{ chart }} </canvas>

@@ -20,6 +20,7 @@ import { NgChartsModule } from 'ng2-charts';
     HttpClientModule,
     FormsModule,
     NgChartsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

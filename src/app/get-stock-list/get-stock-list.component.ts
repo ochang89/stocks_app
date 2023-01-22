@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, getModuleFactory, Inject } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { StocksService } from '../stocks.service';
 import { Chart, ChartConfiguration, ChartOptions, ChartType } from "chart.js";
+import { DOCUMENT } from '@angular/common';
 
 
 export type stockData = Array<{
@@ -20,7 +21,6 @@ export type stockData = Array<{
 })
 
 export class GetStockListComponent {
-  button = document.getElementById('button1');
   tiingo_API_TOKEN: string = 'be8c9784e7cd1f96be661df808c6be2b6eed78d6';
   request = require('request');
   ticker: string = '';
@@ -52,7 +52,6 @@ export class GetStockListComponent {
       console.log(data);
       this.jsonData = data;
       const openPrices = this.jsonData.map((obj: { open: any; }) => obj.open);
-      //jsonData contains daily info for the whole week
       this.stocksMap.set(this.ticker.toUpperCase(), this.jsonData);
       this.mapVals = this.stocksMap.get(this.ticker.toUpperCase())!;
       console.log(this.stocksMap);
@@ -60,7 +59,6 @@ export class GetStockListComponent {
       this.volume = `${this.jsonData[0].volume}`;
       this.averageHighLow = (((parseFloat(this.jsonData[0].high) + parseFloat(this.jsonData[0].low)) / 2).toFixed(2)).toString();
       this.unformattedDate = this.jsonData[0].date;
-      console.log(`unformatted date: ` + this.unformattedDate);
       this.showDate = `${this.formatDate(this.unformattedDate)}`;
       this.displayMsg = this.displayMessage();
       this.getStockDates();
@@ -68,24 +66,33 @@ export class GetStockListComponent {
         type: 'line',
         data: {
           labels: this.stockDates,
+          
           datasets: [
             { 
               data: this.volumeArr,
-              borderColor: "#3cba9f",
-              backgroundColor: "#3cba9f",
-              fill: true
+              borderColor: "rgba(0,153,0,1)",
+              backgroundColor: "rgba(0,153,0,0.3)",
+              fill: true,
+              
             },
             { 
               data: this.averageHighLow,
-              borderColor: "#ffcc00",
               fill: false
             },
           ]
         },
         options: {
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
           scales: {
             x: {
-              display: true
+              display: true,
+              grid: {
+                color: "gray"
+              }
             },
             y: {
               title: {
@@ -102,9 +109,7 @@ export class GetStockListComponent {
   }
 
   displayMessage = () => {
-    console.log(`Formatted date: ` + this.showDate);
     const day = new Date(this.showDate);
-    console.log(`day: ` + day);
     let dayOf = day.getDay();
     console.log(dayOf);
     return this.checkIfWeekend();
@@ -122,11 +127,9 @@ export class GetStockListComponent {
     const stockInfo: stockData = this.mapVals;
 
     const inputDate = stockInfo[0].date;
-    console.log(`inputDate: ${inputDate}`);
     // map creates new array and assigns each day.date to it
     // forEach doesn't return ANYTHING (void)
     const stockWeek = stockInfo.filter(day => day.date);
-    console.log(`Stock week` + stockWeek);
 
     if (inputDay === 6 || inputDay === 0 || !inputDate.includes(this.showDate)) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
 
