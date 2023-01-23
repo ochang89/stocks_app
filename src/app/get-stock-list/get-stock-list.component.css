@@ -85,3 +85,8 @@ label {
     top: 5px;
     left: 20px;
 }
+
+.app-content {
+    position: relative;
+    top: 100px;
+}

@@ -1,43 +1,44 @@
+<div class="app-content">
+    <div class="input">
+        <label for="">Stock Ticker</label>
+        <input type="text" [(ngModel)]="ticker" value="'AAPL'">
+    </div>
+    <div class="input">
+        <label for=""> From Date  </label>
+        <input type="date" [(ngModel)]="date" value="DD-MM-YYYY">
+    </div>
+    <button (click)="onSubmit()" type="button" class="btn btn-dark">Submit</button>
+    <br>
+    <hr>
+    <p>{{ displayMsg }}</p>
 
-<div class="input">
-    <label for="">Stock Ticker</label>
-    <input type="text" [(ngModel)]="ticker" value="'AAPL'">
-</div>
-<div class="input">
-    <label for="">  Date  </label>
-    <input type="date" [(ngModel)]="date" value="DD-MM-YYYY">
-</div>
-<button (click)="onSubmit()" type="button" class="btn btn-dark">Submit</button>
-<br><br>
-<hr>
-<p>{{ displayMsg }}</p>
+    <div>
+        <h3>Stock: {{ showTicker }}</h3>
+        <p>Date: {{ showDate }}</p>
+        <p>Open price: {{ openPrice }}</p>
+        <p>Close price: {{ closePrice }}</p>
+        <p>Volume: {{ volume }}</p>
+        <p>High and Low of Day Average: {{ averageHighLow }}</p>
+    </div>
 
-<div>
-    <h3>Stock: {{ showTicker }}</h3>
-    <p>Date: {{ showDate }}</p>
-    <p>Open price: {{ openPrice }}</p>
-    <p>Close price: {{ closePrice }}</p>
-    <p>Volume: {{ volume }}</p>
-    <p>High and Low of Day Average: {{ averageHighLow }}</p>
-</div>
-
-<div class="row">
-    <div class="nav nav-tabs"> 
-        <div class="nav-item1">
-            <a class="nav-link" routerLink="#volume"  href="#volume">Daily Volume</a>
-            
-        </div>
-        <div class="nav-item2">
-            <a class="nav-link" routerLink="#averageprice"  href="#averageprice">Daily Average Price</a>
-            <canvas id="average-price-canvas"> </canvas>
+    <div class="row">
+        <div class="nav nav-tabs"> 
+            <div class="nav-item1">
+                <a class="nav-link" routerLink="#volume"  href="#volume">Daily Volume</a>
+                
+            </div>
+            <div class="nav-item2">
+                <a class="nav-link" routerLink="#averageprice"  href="#averageprice">Daily Average Price</a>
+                <canvas id="average-price-canvas"> </canvas>
+            </div>
         </div>
     </div>
-</div>
-<div class="card mx-auto">
-    <div>
-        <canvas id="volume-canvas"> </canvas>
-    </div>
-    <div>
+    <div class="card mx-auto">
+        <div>
+            <canvas id="volume-canvas"> </canvas>
+        </div>
+        <div>
 
+        </div>
     </div>
 </div>
