@@ -1,8 +1,22 @@
-div {
-    font-size: 16px;
-    font-family: Mulish,sans-serif
+.title {
+    float:left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 12px 60px;
+    font-size: 32px;
+    font-weight: 900;
+    font-style: italic;
 }
 
+div {
+    font-size: 16px;
+    font-family: Mulish,sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
 /* The side navigation menu */
 .sidebar {
     margin: 0;
@@ -12,94 +26,93 @@ div {
     position: fixed;
     left: 0px;
     top: 0px;
+    z-index: 0;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     font-size: 16px;
     font-family: Mulish,sans-serif
-  }
+}
   
-  /* Sidebar links */
-  .sidebar a {
-    display: block;
-    color: white;
-    padding: 18px;
-    text-decoration: none;
-    text-align: center;
-  }
+/* Sidebar links */
+.sidebar a {
+display: block;
+color: white;
+padding: 18px;
+text-decoration: none;
+text-align: center;
+}
   
-  /* Active/current link */
-  .sidebar a.active {
-    /* background-color: #04AA6D; */
-    color: white;
-  }
+/* Active/current link */
+.sidebar a.active {
+/* background-color: #04AA6D; */
+color: white;
+}
   
-  /* Links on mouse-over */
-  .sidebar a:hover {
-    background-color: rgb(122, 63, 63);
-    color: white;
-    font-weight: 900;
-  }
+/* Links on mouse-over */
+.sidebar a:hover {
+background-color: rgba(196, 118, 45, .9);
+color: white;
+font-weight: 900;
+}
   
-  /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
-  div.content {
-    margin-left: 200px;
-    padding: 1px 16px;
-    height: 1000px;
-  }
-  
-  /* On screens that are less than 700px wide, make the sidebar into a topbar */
-  @media screen and (max-width: 700px) {
-    .sidebar {
-      width: 100%;
-      height: auto;
-      position: relative;
-    }
-    .sidebar a {float: left;}
-    div.content {margin-left: 0;}
-  }
-  
-  /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
-  @media screen and (max-width: 400px) {
-    .sidebar a {
-      text-align: center;
-      float: none;
-    }
-  }
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+
 
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #333;
+    background-color: rgb(196, 118, 45);
+    position: fixed;
+    z-index: 1;
     overflow: hidden;
-    position: absolute;
-    width: 100%;
-    left: 200px;
+    width:100%;
+    height: 72px;
     top: 0px;
+    left: 0px;
     font-family: Mulish,sans-serif
-  }
+}
   
-  /* Style the links inside the navigation bar */
-  .topnav a {
-    float: left;
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: right;
     color: #f2f2f2;
+    height: 72px;
     text-align: center;
-    padding: 14px 16px;
+    padding: 22px 20px;
     text-decoration: none;
     font-size: 16px;
-  }
+}
   
-  /* Change the color of links on hover */
-  .topnav a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  /* Add a color to the active/current link */
-  .topnav a.active {
-    /* background-color: #04AA6D; */
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #555;
+    font-weight: 900;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+/* background-color: #04AA6D; */
     color: white;
-  }
+}
+
+div.content {
+    position: absolute;
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1100px;
+    overflow: hidden;
+}
 
 .content {
     position: absolute;
     top: 100px;
+    overflow: hidden;
+}
+
+.wrapper {
+    top: 100px;
+    overflow: hidden;
+}
+
+.router-outlet {
+    overflow: hidden;
 }

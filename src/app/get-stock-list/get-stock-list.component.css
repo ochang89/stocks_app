@@ -1,0 +1,87 @@
+
+.nav-item {
+    position: absolute;
+    left: 10px;
+    /* bottom: 323px; */
+    width: auto;
+}
+
+.nav-item1 {
+    text-align: center;
+    width: 20rem;
+    position: relative;
+    top: 27px;
+    left: 16px;
+}
+
+.nav-item2 {
+    text-align: center;
+    vertical-align:top;
+    position: relative;
+    right: -15px;
+    top: 27px;
+}
+
+.nav-item a {
+    text-align: center;
+    position: relative;
+    width: 12rem;
+    color: black;
+}
+
+.nav-item1 a:hover {
+    text-align: center;
+    color: white;
+    background-color: rgb(196, 118, 45);
+    font-weight: 900;
+}
+
+.nav-item1 a:active {
+    text-align: center;
+    color: white;
+    background-color: rgb(196, 118, 45);
+    font-weight: 900;
+}
+
+.nav-item2 a:hover {
+    color: white;
+    background-color: rgb(196, 118, 45);
+    font-weight: 900;
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
+    position: relative;
+    border-color: gray;
+    width: 45rem;
+    height: 45rem;
+    bottom: 80px;
+    border-width: 0px;
+}
+/* 
+#volume-canvas {
+    width: 50rem;
+} */
+
+#volume-canvas {
+    width: 50rem;
+}
+
+.input {
+    position: relative;
+    padding: 10px;
+    float:left;
+}
+
+label {
+    position: relative;
+    padding: 5px;
+}
+
+.btn {
+    position: relative;
+    padding: 8px;
+    top: 5px;
+    left: 20px;
+}

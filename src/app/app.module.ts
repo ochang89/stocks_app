@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { GetStockListComponent } from './get-stock-list/get-stock-list.component';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -19,8 +20,8 @@ import { NgChartsModule } from 'ng2-charts';
     RouterModule,
     HttpClientModule,
     FormsModule,
-    NgChartsModule
-
+    NgChartsModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

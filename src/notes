@@ -1,7 +1,24 @@
 - How do you integrate boostrap 5 to angular?
     - ng bootstrap library installed
 
+1/22 - This program currently grabs every date from now since the input date.
+    ex.: input 09/09/2022 -> program grabs all data from 09/09/2022 until now.
+
 - Features to work on:
     - Different tabs to display different datasets like volume, average price, etc..
     - nav bar
+        - remove horizontal scrolling with content/sidebar
+        - add functionality to buttons
+    - Checkbox filter for search function:
+        - checkboxes for all, date, openprice, closeprice, etc.
+    - Watchlist for stocks
+        - API to Save(post) stock to database
+        - Will need backend framework + db for this
+        - API to save stock from db to watchlist
     
+
+charts:
+    -ngx-charts
+    -ng2-charts
+    -canvasjs
+    -chartjs

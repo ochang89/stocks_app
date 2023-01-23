@@ -1,10 +1,13 @@
-<label for="">Stock Ticker </label>
-<input type="text" [(ngModel)]="ticker">
 
-<label for="">  Date </label>
-<input type="text" [(ngModel)]="date" value="YYYY-MM-DD">
-<br><br>
-<button (click)="onSubmit()" type="button" class="btn btn-dark">Get Stocks List</button>
+<div class="input">
+    <label for="">Stock Ticker</label>
+    <input type="text" [(ngModel)]="ticker" value="'AAPL'">
+</div>
+<div class="input">
+    <label for="">  Date  </label>
+    <input type="date" [(ngModel)]="date" value="DD-MM-YYYY">
+</div>
+<button (click)="onSubmit()" type="button" class="btn btn-dark">Submit</button>
 <br><br>
 <hr>
 <p>{{ displayMsg }}</p>
@@ -18,6 +21,23 @@
     <p>High and Low of Day Average: {{ averageHighLow }}</p>
 </div>
 
-<div style="width: 50rem">
-    <canvas id="canvas"> {{ chart }} </canvas>
+<div class="row">
+    <div class="nav nav-tabs"> 
+        <div class="nav-item1">
+            <a class="nav-link" routerLink="#volume"  href="#volume">Daily Volume</a>
+            
+        </div>
+        <div class="nav-item2">
+            <a class="nav-link" routerLink="#averageprice"  href="#averageprice">Daily Average Price</a>
+            <canvas id="average-price-canvas"> </canvas>
+        </div>
+    </div>
+</div>
+<div class="card mx-auto">
+    <div>
+        <canvas id="volume-canvas"> </canvas>
+    </div>
+    <div>
+
+    </div>
 </div>

@@ -3,6 +3,7 @@ import { Route, Router } from '@angular/router';
 import { StocksService } from '../stocks.service';
 import { Chart, ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 import { DOCUMENT } from '@angular/common';
+import { volumeChart } from '../Charts/charts';
 
 
 export type stockData = Array<{
@@ -34,15 +35,19 @@ export class GetStockListComponent {
   unformattedDate: string = '';
   showDate: string = '';
   volume: string = '';
-  averageHighLow: any;
-  stockDates: string[] = [];
   openPrices!: string[];
   openPrice: string = '';
   chart!: Chart;
+  averageHighLow: any;
+  stockDates: string[] = [];
   volumeArr: string[] = [];
   keys: string[] = [];
 
-  constructor(private router: Router, private stocksService: StocksService) {
+  constructor(private stocksService: StocksService) {
+  }
+
+  ngOnInit(){
+     
   }
 
   onSubmit() {
@@ -51,7 +56,7 @@ export class GetStockListComponent {
     this.stocksService.getStocksList(this.ticker, this.date, this.tiingo_API_TOKEN).subscribe(data => {
       console.log(data);
       this.jsonData = data;
-      const openPrices = this.jsonData.map((obj: { open: any; }) => obj.open);
+      // const openPrices = this.jsonData.map((obj: { open: any; }) => obj.open);
       this.stocksMap.set(this.ticker.toUpperCase(), this.jsonData);
       this.mapVals = this.stocksMap.get(this.ticker.toUpperCase())!;
       console.log(this.stocksMap);
@@ -62,50 +67,10 @@ export class GetStockListComponent {
       this.showDate = `${this.formatDate(this.unformattedDate)}`;
       this.displayMsg = this.displayMessage();
       this.getStockDates();
-      this.chart = new Chart('canvas', {
-        type: 'line',
-        data: {
-          labels: this.stockDates,
-          
-          datasets: [
-            { 
-              data: this.volumeArr,
-              borderColor: "rgba(0,153,0,1)",
-              backgroundColor: "rgba(0,153,0,0.3)",
-              fill: true,
-              
-            },
-            { 
-              data: this.averageHighLow,
-              fill: false
-            },
-          ]
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          scales: {
-            x: {
-              display: true,
-              grid: {
-                color: "gray"
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Volume'
-              }
-            }
-          }
-        }
-      });
+      const ctx = document.getElementById('volume-canvas') as HTMLCanvasElement;
+      this.chart = volumeChart(ctx, this.stockDates, this.volumeArr, this.averageHighLow);
     });
     this.showTicker = this.ticker.toUpperCase();
-    
   }
 
   displayMessage = () => {
@@ -125,11 +90,10 @@ export class GetStockListComponent {
   checkIfWeekend = (): string => {
     const inputDay = new Date(this.showDate).getDay();
     const stockInfo: stockData = this.mapVals;
-
     const inputDate = stockInfo[0].date;
     // map creates new array and assigns each day.date to it
     // forEach doesn't return ANYTHING (void)
-    const stockWeek = stockInfo.filter(day => day.date);
+    // const stockWeek = stockInfo.filter(day => day.date);
 
     if (inputDay === 6 || inputDay === 0 || !inputDate.includes(this.showDate)) return `Stock market was not open on ${this.date}. The next open trading day is ${this.showDate}.`;
 
